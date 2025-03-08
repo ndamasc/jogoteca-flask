@@ -13,6 +13,32 @@ def novo():
         return redirect(url_for('login', proxima=url_for('novo'))) 
     return render_template('novo.html',titulo='Novo jogo')
 
+@app.route('/edit/<int:id>')
+def edit(id):
+    if 'logged_user' not in session or session['logged_user'] == None:
+        return redirect(url_for('login', proxima=url_for('edit'))) 
+    
+    jogo = Jogos.query.filter_by(id=id).first()
+    return render_template('edit.html',titulo='Editar jogo', jogo=jogo)
+
+
+
+
+@app.route('/atualizar', methods=['POST',])
+def atualizar():
+    jogo = Jogos.query.filter_by(id=request.form['id']).first()
+    jogo.nome = request.form['nome']
+    jogo.categoria = request.form['categoria']
+    jogo.console = request.form['console']
+
+    db.session.add(jogo)
+    db.session.commit()
+
+    return redirect(url_for('home'))
+
+
+
+
 @app.route('/criar', methods=['POST',])
 def criar():
     nome = request.form['nome']
