@@ -5,6 +5,7 @@ class Jogos(db.Model):
     nome = db.Column(db.String(50), nullable=False)
     categoria = db.Column(db.String(20), nullable=False)
     console = db.Column(db.String(20), nullable=False)
+    # img = db.Column(db.BLOB)
 
     def __repr__(self):
         return '<Name %r>' % self.name
